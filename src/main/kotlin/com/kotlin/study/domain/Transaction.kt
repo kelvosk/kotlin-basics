@@ -4,7 +4,7 @@ import java.time.ZonedDateTime
 import javax.persistence.*
 
 @Entity
-class Transaction (
+data class Transaction (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
