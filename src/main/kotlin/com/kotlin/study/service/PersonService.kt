@@ -1,7 +1,7 @@
 package com.kotlin.study.service
 
-import org.springframework.stereotype.Service
+import com.kotlin.study.domain.Person
 
-@Service
 interface PersonService {
+    fun savePerson(person: Person)
 }

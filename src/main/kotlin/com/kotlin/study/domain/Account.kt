@@ -1,11 +1,8 @@
 package com.kotlin.study.domain
 
 import com.kotlin.study.util.AccountType
-import java.time.ZonedDateTime
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import java.time.LocalDateTime
+import javax.persistence.*
 
 @Entity
 data class Account(
@@ -13,10 +10,12 @@ data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idAccount: Long,
-    val idPersonFK: Long,
-    val balance: Float,
-    val dailyWithdrawLimit: Float,
-    val active: Boolean,
+    @OneToOne(mappedBy = "account")
+    @PrimaryKeyJoinColumn
+    val idPerson: Person,
+    val balance: Float = 0.0f,
+    val dailyWithdrawLimit: Float = 0.0f,
+    val active: Boolean = true,
     val accountType: AccountType,
-    val creationDate: ZonedDateTime
+    val creationDate: LocalDateTime = LocalDateTime.now()
 )

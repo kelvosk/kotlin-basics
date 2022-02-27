@@ -1,6 +1,6 @@
 package com.kotlin.study.domain
 
-import java.time.ZonedDateTime
+import java.time.LocalDate
 import javax.persistence.*
 
 @Entity
@@ -8,11 +8,12 @@ data class Person (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val idPerson: Long,
+    @Column(name = "idPerson")
+    val idPerson: Long = 0,
     val name: String,
     val cpf: String,
-    val bornDate: ZonedDateTime,
-    @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "idPerson", referencedColumnName = "idPersonFK")
-    val accountId: Account
+    val bornDate: LocalDate,
+    @OneToOne
+    @PrimaryKeyJoinColumn
+    val account: Account
 )

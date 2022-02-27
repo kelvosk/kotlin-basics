@@ -1,6 +1,6 @@
 package com.kotlin.study.domain
 
-import java.time.ZonedDateTime
+import java.time.LocalDateTime
 import javax.persistence.*
 
 @Entity
@@ -11,5 +11,5 @@ data class Transaction (
     val idTransaction: Long,
     val idAccount: Long,
     val transactionValue: Float,
-    val transactionDate: ZonedDateTime
+    val transactionDate: LocalDateTime
 )
