@@ -12,9 +12,9 @@ data class Account(
     val idAccount: Long,
     @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "account")
     val person: Person?,
-    val balance: Float = 0.0f,
-    val dailyWithdrawLimit: Float = 0.0f,
+    var balance: Float = 1000.0f,
+    var dailyWithdrawLimit: Float = 0.0f,
     val active: Boolean = true,
     val accountType: AccountType,
-    val creationDate: LocalDateTime = LocalDateTime.now()
+    val creationDate: LocalDateTime? = LocalDateTime.now()
 )

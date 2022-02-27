@@ -5,6 +5,6 @@ enum class AccountType (
     val description: String
     ) {
     LEGAL_PERSON(1, "Legal Person"),
-    JURISTIC_PERSON(2, "Juristic Person");
+    JURISTIC_PERSON(2, "Juristic Person")
 
 }
