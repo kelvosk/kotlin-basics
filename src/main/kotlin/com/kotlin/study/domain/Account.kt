@@ -10,9 +10,8 @@ data class Account(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val idAccount: Long,
-    @OneToOne(mappedBy = "account")
-    @PrimaryKeyJoinColumn
-    val idPerson: Person,
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "account")
+    val person: Person?,
     val balance: Float = 0.0f,
     val dailyWithdrawLimit: Float = 0.0f,
     val active: Boolean = true,

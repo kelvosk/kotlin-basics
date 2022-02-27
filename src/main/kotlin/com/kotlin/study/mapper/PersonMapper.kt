@@ -10,6 +10,6 @@ val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d/MM/yyy
 fun personRequestToPerson(personRequest: PersonRequest) = Person(
         name = personRequest.name,
         cpf = personRequest.cpf,
-        bornDate = LocalDate.parse(personRequest.bornDate, dateTimeFormatter),
+        birthOfDate = LocalDate.parse(personRequest.bornDate, dateTimeFormatter),
         account = personRequest.account
 )

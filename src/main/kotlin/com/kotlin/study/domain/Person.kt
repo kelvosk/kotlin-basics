@@ -10,10 +10,17 @@ data class Person (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPerson")
     val idPerson: Long = 0,
+
+    @Column(name = "name")
     val name: String,
+
+    @Column(name = "cpf")
     val cpf: String,
-    val bornDate: LocalDate,
-    @OneToOne
-    @PrimaryKeyJoinColumn
+
+    @Column(name = "birth_of_date")
+    val birthOfDate: LocalDate,
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @JoinColumn(name = "id_account")
     val account: Account
 )
