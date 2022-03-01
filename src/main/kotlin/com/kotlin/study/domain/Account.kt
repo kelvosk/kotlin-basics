@@ -14,7 +14,7 @@ data class Account(
     val person: Person?,
     var balance: Float = 1000.0f,
     var dailyWithdrawLimit: Float = 0.0f,
-    val active: Boolean = true,
+    var active: Boolean = true,
     val accountType: AccountType,
-    val creationDate: LocalDateTime? = LocalDateTime.now()
+    var creationDate: LocalDateTime?,
 )
