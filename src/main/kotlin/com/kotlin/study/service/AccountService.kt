@@ -1,5 +1,6 @@
 package com.kotlin.study.service
 
+import com.kotlin.study.domain.Account
 import com.kotlin.study.request.AccountRequest
 import com.kotlin.study.response.*
 import org.springframework.stereotype.Service
@@ -12,4 +13,5 @@ interface AccountService {
     fun withdraw(accountRequest: AccountRequest): AccountWithdrawResponse
     fun blockAccount(accountRequest: AccountRequest) : AccountBlockResponse
     fun activeAccount(accountRequest: AccountRequest) : AccountActiveResponse
+    fun getAccountById(id: Long) : Account?
 }

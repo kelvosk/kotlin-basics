@@ -2,6 +2,7 @@ package com.kotlin.study.impl
 
 import com.kotlin.study.domain.Account
 import com.kotlin.study.error.AccountError
+import com.kotlin.study.error.AccountNotFoundError
 import com.kotlin.study.repository.AccountRepository
 import com.kotlin.study.request.AccountRequest
 import com.kotlin.study.service.AccountService
@@ -28,7 +29,7 @@ class AccountServiceImpl(
         return try {
             accountRequest.transactionType = TransactionType.DEPOSIT
 
-            val account: Account = depositInAccount(accountRepository.getById(accountRequest.idAccount),
+            val account: Account = depositInAccount(getAccountById(accountRequest.idAccount),
                 accountRequest.depositValue)
             depositAccountToAccountResponse(account, accountRequest)
 
@@ -42,13 +43,14 @@ class AccountServiceImpl(
         logger.info("L=I C=AccountServiceImpl M=getBalance D=Get account balance")
         isActive(AccountRequest(idAccount = id,
             transactionType = TransactionType.BALANCE))
-        return getBalanceAccountToAccountBalanceResponse(accountRepository.getById(id))
+        return getBalanceAccountToAccountBalanceResponse(getAccountById(id))
+
     }
 
     override fun withdraw(accountRequest: AccountRequest): AccountWithdrawResponse {
         logger.info("L=I C=AccountServiceImpl M=withdraw D=Withdraw an amount from an account")
         isActive(accountRequest)
-        return withdrawAccountToAccountWithdrawResponse(withdrawBalance(accountRepository.getById(accountRequest.idAccount),
+        return withdrawAccountToAccountWithdrawResponse(withdrawBalance(getAccountById(accountRequest.idAccount),
             accountRequest.withdrawValue), accountRequest)
     }
 
@@ -63,8 +65,16 @@ class AccountServiceImpl(
         return activeAccountToAccountActiveResponse(activeOrBlockAccount(accountRequest, true))
     }
 
+    override fun getAccountById(id: Long): Account {
+        return try {
+            accountRepository.getById(id)
+        } catch (e: Exception) {
+            throw AccountNotFoundError("Account not Found")
+        }
+    }
+
     fun activeOrBlockAccount(accountRequest: AccountRequest, bool: Boolean): Account{
-        val account: Account = accountRepository.getById(accountRequest.idAccount)
+        val account: Account = getAccountById(accountRequest.idAccount)
         account.active = bool
         return accountRepository.save(account)
     }
@@ -89,7 +99,7 @@ class AccountServiceImpl(
 
     override fun isActive(accountRequest: AccountRequest): Boolean {
         logger.info("L=I C=AccountServiceImpl M=isActive D=Verify if the account is activated")
-        return when ((accountRepository.getById(accountRequest.idAccount).active)){
+        return when ((getAccountById(accountRequest.idAccount).active)){
             true -> true
             false -> throw InactiveError()
         }
