@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 interface AccountService {
     fun deposit(accountRequest: AccountRequest) : AccountDepositResponse
     fun isActive(accountRequest: AccountRequest) : Boolean
-    fun getBalance(accountRequest: AccountRequest) : AccountBalanceResponse
+    fun getBalance(id: Long) : AccountBalanceResponse
     fun withdraw(accountRequest: AccountRequest): AccountWithdrawResponse
     fun blockAccount(accountRequest: AccountRequest) : AccountBlockResponse
     fun activeAccount(accountRequest: AccountRequest) : AccountActiveResponse

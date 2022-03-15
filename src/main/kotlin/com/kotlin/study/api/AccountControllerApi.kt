@@ -13,9 +13,9 @@ interface AccountControllerApi {
     @ResponseStatus(HttpStatus.OK)
     fun deposit(@RequestBody accountRequest: AccountRequest) : AccountDepositResponse
 
-    @GetMapping("/balance")
+    @GetMapping("/balance/{id}")
     @ResponseStatus(HttpStatus.OK)
-    fun getBalance(@RequestBody accountRequest: AccountRequest) : AccountBalanceResponse
+    fun getBalance(@PathVariable id: Long) : AccountBalanceResponse
 
     @PostMapping("/withdraw")
     @ResponseStatus(HttpStatus.OK)

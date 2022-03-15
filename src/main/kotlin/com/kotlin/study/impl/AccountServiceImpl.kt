@@ -38,10 +38,11 @@ class AccountServiceImpl(
         }
     }
 
-    override fun getBalance(accountRequest: AccountRequest): AccountBalanceResponse {
+    override fun getBalance(id: Long): AccountBalanceResponse {
         logger.info("L=I C=AccountServiceImpl M=getBalance D=Get account balance")
-        isActive(accountRequest)
-        return getBalanceAccountToAccountBalanceResponse(accountRepository.getById(accountRequest.idAccount))
+        isActive(AccountRequest(idAccount = id,
+            transactionType = TransactionType.BALANCE))
+        return getBalanceAccountToAccountBalanceResponse(accountRepository.getById(id))
     }
 
     override fun withdraw(accountRequest: AccountRequest): AccountWithdrawResponse {

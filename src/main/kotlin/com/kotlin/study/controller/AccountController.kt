@@ -17,8 +17,8 @@ class AccountController (
     override fun deposit(accountRequest: AccountRequest): AccountDepositResponse =
         accountServiceImpl.deposit(accountRequest)
 
-    override fun getBalance(accountRequest: AccountRequest): AccountBalanceResponse =
-        accountServiceImpl.getBalance(accountRequest)
+    override fun getBalance(id: Long): AccountBalanceResponse =
+        accountServiceImpl.getBalance(id)
 
     override fun withdraw(accountRequest: AccountRequest): AccountWithdrawResponse =
         accountServiceImpl.withdraw(accountRequest)
