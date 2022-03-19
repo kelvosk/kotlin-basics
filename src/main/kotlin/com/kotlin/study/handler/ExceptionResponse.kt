@@ -19,11 +19,4 @@ class ExceptionResponse(
             .append("\n")
             .append("}")
     }
-
-    private fun concat(messages: List<String>): String? {
-        return messages.stream()
-            .reduce("") {
-                s1: String, s2: String -> if (s1.isEmpty()) s1 + s2 else "$s1, $s2"
-            }
-    }
 }

@@ -1,7 +1,6 @@
 package com.kotlin.study.controller
 
 import com.kotlin.study.api.AccountControllerApi
-import com.kotlin.study.error.AccountNotFoundError
 import com.kotlin.study.impl.AccountServiceImpl
 import com.kotlin.study.request.AccountRequest
 import com.kotlin.study.response.AccountActiveResponse
@@ -19,7 +18,7 @@ class AccountController (
         accountServiceImpl.deposit(accountRequest)
 
     override fun getBalance(id: Long): AccountBalanceResponse =
-        accountServiceImpl.getBalance(id) ?: throw AccountNotFoundError("Account id=${id} not found")
+        accountServiceImpl.getBalance(id)
 
     override fun withdraw(accountRequest: AccountRequest): AccountWithdrawResponse =
         accountServiceImpl.withdraw(accountRequest)

@@ -1,5 +1,7 @@
 package com.kotlin.study.error
 
-import java.lang.RuntimeException
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 
-class NotEnoughBalanceError(message: String) : RuntimeException(message)
+@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+data class NotEnoughBalanceError(override val message: String?) : RuntimeException()

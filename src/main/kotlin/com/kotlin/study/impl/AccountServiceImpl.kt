@@ -1,23 +1,27 @@
 package com.kotlin.study.impl
 
 import com.kotlin.study.domain.Account
+import com.kotlin.study.domain.Transaction
 import com.kotlin.study.error.AccountError
 import com.kotlin.study.error.AccountNotFoundError
-import com.kotlin.study.repository.AccountRepository
-import com.kotlin.study.request.AccountRequest
-import com.kotlin.study.service.AccountService
 import com.kotlin.study.error.InactiveError
 import com.kotlin.study.error.NotEnoughBalanceError
 import com.kotlin.study.mapper.*
+import com.kotlin.study.repository.AccountRepository
+import com.kotlin.study.repository.TransactionRepository
+import com.kotlin.study.request.AccountRequest
 import com.kotlin.study.response.*
+import com.kotlin.study.service.AccountService
 import com.kotlin.study.util.TransactionType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 
 @Service
 class AccountServiceImpl(
     private val accountRepository: AccountRepository,
+    private val transactionRepository: TransactionRepository,
 ) : AccountService {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -82,7 +86,7 @@ class AccountServiceImpl(
     fun depositInAccount(account: Account, depositValue: Float): Account {
         logger.info("L=I C=AccountServiceImpl M=depositInAccount D=Adding value to account balance")
         account.balance += depositValue
-        return accountRepository.save(account)
+        return saveAccountAndTransaction(account, depositValue, TransactionType.DEPOSIT)
     }
 
     fun withdrawBalance(account: Account, withdrawValue: Float) : Account {
@@ -94,15 +98,29 @@ class AccountServiceImpl(
         else {
             throw NotEnoughBalanceError("You don't have enough balance to withdraw")
         }
-        return accountRepository.save(account)
+        return saveAccountAndTransaction(account, withdrawValue, TransactionType.WITHDRAW)
     }
 
     override fun isActive(accountRequest: AccountRequest): Boolean {
         logger.info("L=I C=AccountServiceImpl M=isActive D=Verify if the account is activated")
         return when ((getAccountById(accountRequest.idAccount).active)){
             true -> true
-            false -> throw InactiveError()
+            false -> throw InactiveError("This account is inactive")
         }
+    }
+
+    fun saveAccountAndTransaction(account: Account, value: Float, transactionType: TransactionType) : Account {
+        logger.info("L=I C=AccountServiceImpl M=saveAccountAndTransaction D=Saving transactions details")
+        val transaction = Transaction(
+            idAccount = account.idAccount,
+            transactionValue = value,
+            transactionDate = LocalDateTime.now(),
+            transactionType = transactionType.description,
+        )
+
+        transactionRepository.save(transaction)
+
+        return accountRepository.save(account)
     }
 
     fun transferBalance(accountToSubtract: Account, accountToAdd: Account ,value: Float) {

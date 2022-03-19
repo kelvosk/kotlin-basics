@@ -4,6 +4,7 @@ enum class TransactionType(
     val id: Long,
     val description: String
 ){
+    TO_DEFINE(0, "To define"),
     DEPOSIT(1, "Deposit"),
     WITHDRAW(2, "Withdraw"),
     TRANSFER(3, "Transfer"),

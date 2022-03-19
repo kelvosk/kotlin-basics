@@ -1,7 +1,9 @@
 package com.kotlin.study.error
 
-import java.lang.RuntimeException
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.ResponseStatus
 
-class InactiveError() : RuntimeException("This account is inactive, please contact the bank") {
+@ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+data class InactiveError(override val message: String?) : RuntimeException() {
 
 }
